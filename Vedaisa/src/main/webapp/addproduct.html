@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Add Product | Vadasi Store</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" />
+  <style>
+    body {
+      background-color: #f1f3f6;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    /* ✅ Navbar */
+    .navbar {
+      background-color: #2e7d32;
+      padding: 10px 20px;
+    }
+    .navbar-brand {
+      color: #fff !important;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    /* ✅ Form Container */
+    .form-container {
+      max-width: 500px;
+      background: white;
+      margin: 80px auto;
+      padding: 30px 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-container h2 {
+      color: #2e7d32;
+      text-align: center;
+      font-weight: 700;
+      margin-bottom: 25px;
+    }
+
+    .form-control {
+      border-radius: 10px;
+      box-shadow: none;
+    }
+
+    .btn-success {
+      background-color: #2e7d32;
+      border: none;
+      border-radius: 10px;
+      font-weight: 600;
+      padding: 10px;
+      width: 100%;
+      transition: 0.3s;
+    }
+
+    .btn-success:hover {
+      background-color: #1b5e20;
+    }
+
+    /* ✅ Back Button Center */
+    .back-btn {
+      display: flex;
+      justify-content: center;
+      margin-top: 15px;
+    }
+
+    .back-btn a {
+      background-color: #1e88e5;
+      color: white;
+      font-weight: 600;
+      border-radius: 10px;
+      padding: 10px 25px;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    .back-btn a:hover {
+      background-color: #1565c0;
+    }
+
+    /* ✅ Popup Message */
+    #popup {
+      position: fixed;
+      top: 30px;
+      right: 30px;
+      background-color: #43a047;
+      color: white;
+      padding: 15px 25px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 16px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+      display: none;
+      z-index: 1000;
+      animation: fadeInOut 3s ease forwards;
+    }
+
+    @keyframes fadeInOut {
+      0% { opacity: 0; transform: translateY(-20px); }
+      10% { opacity: 1; transform: translateY(0); }
+      90% { opacity: 1; transform: translateY(0); }
+      100% { opacity: 0; transform: translateY(-20px); }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- ✅ Navbar -->
+  <nav class="navbar">
+    <a class="navbar-brand" href="index.html"><i class="bi bi-bag-check"></i> Vadasi Store</a>
+  </nav>
+
+  <!-- ✅ Add Product Form -->
+  <div class="form-container">
+    <h2><i class="bi bi-plus-circle"></i> Add New Product</h2>
+    <form id="productForm">
+      <div class="mb-3">
+        <label for="title" class="form-label">Product Name</label>
+        <input type="text" id="title" class="form-control" placeholder="Enter product name" required />
+      </div>
+
+      <div class="mb-3">
+        <label for="price" class="form-label">Price (₹)</label>
+        <input type="number" id="price" class="form-control" placeholder="Enter price" required />
+      </div>
+
+      <div class="mb-3">
+        <label for="image" class="form-label">Image URL</label>
+        <input type="text" id="image" class="form-control" placeholder="Paste image link (optional)" />
+      </div>
+
+      <button type="submit" class="btn btn-success"><i class="bi bi-plus-lg"></i> Add Product</button>
+    </form>
+
+    <!-- ✅ Centered Back Button -->
+    <div class="back-btn">
+      <a href="products.html"><i class="bi bi-arrow-left-circle"></i> Back</a>
+    </div>
+  </div>
+
+  <!-- ✅ Popup Message -->
+  <div id="popup">✅ Product added successfully!</div>
+
+  <script>
+    let products = JSON.parse(localStorage.getItem("products")) || [];
+
+    document.getElementById("productForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const title = document.getElementById("title").value.trim();
+      const price = parseFloat(document.getElementById("price").value);
+      const image = document.getElementById("image").value.trim();
+
+      if (!title || !price) return;
+
+      const newProduct = {
+        id: products.length + 1,
+        title,
+        price,
+        image
+      };
+
+      products.push(newProduct);
+      localStorage.setItem("products", JSON.stringify(products));
+
+      showPopup("✅ Product added successfully!");
+      e.target.reset();
+    });
+
+    // ✅ Show Popup
+    function showPopup(message) {
+      const popup = document.getElementById("popup");
+      popup.textContent = message;
+      popup.style.display = "block";
+
+      setTimeout(() => {
+        popup.style.display = "none";
+      }, 3000);
+    }
+  </script>
+</body>
+</html>

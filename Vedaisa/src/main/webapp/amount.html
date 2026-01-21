@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Vedaisa – Secure Checkout</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+body{
+  background:#f1f3f6;
+  font-family:"Poppins",sans-serif;
+}
+
+.checkout-card{
+  max-width:420px;
+  margin:80px auto;
+  background:white;
+  border-radius:15px;
+  box-shadow:0 10px 25px rgba(0,0,0,.15);
+  overflow:hidden;
+}
+
+.checkout-header{
+  background:#2e7d32;
+  color:white;
+  padding:20px;
+  text-align:center;
+}
+
+.checkout-body{
+  padding:30px;
+  text-align:center;
+}
+
+.amount{
+  font-size:30px;
+  font-weight:700;
+  color:#2e7d32;
+  margin:20px 0;
+}
+
+.pay-btn{
+  background:#2e7d32;
+  color:white;
+  border:none;
+  width:100%;
+  padding:12px;
+  border-radius:8px;
+  font-size:16px;
+}
+
+.pay-btn:hover{
+  background:#1b5e20;
+}
+</style>
+</head>
+
+<body>
+
+<div class="checkout-card">
+  <div class="checkout-header">
+    <h3>Vedaisa Checkout</h3>
+    <p class="mb-0">Secure Payment</p>
+  </div>
+
+  <div class="checkout-body">
+    <p>Total Payable</p>
+    <div class="amount">₹ <span id="showAmount">0.00</span></div>
+
+    <form action="generateQR.jsp" method="post">
+      <input type="hidden" name="amount" id="amount">
+      <button class="pay-btn">Generate QR Code</button>
+    </form>
+  </div>
+</div>
+
+<script>
+let total = localStorage.getItem("payAmount");
+if(total){
+  document.getElementById("showAmount").innerText = total;
+  document.getElementById("amount").value = total;
+}
+</script>
+
+</body>
+</html>

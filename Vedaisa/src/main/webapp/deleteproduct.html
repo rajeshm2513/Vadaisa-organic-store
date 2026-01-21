@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Delete Product | Vadasi Store</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" />
+  <style>
+    body {
+      background-color: #f1f3f6;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    /* ✅ Navbar */
+    .navbar {
+      background-color: #2e7d32;
+      padding: 10px 20px;
+    }
+    .navbar-brand {
+      color: #fff !important;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    /* ✅ Form Container */
+    .form-container {
+      max-width: 500px;
+      background: white;
+      margin: 80px auto;
+      padding: 30px 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-container h2 {
+      color: #d32f2f;
+      text-align: center;
+      font-weight: 700;
+      margin-bottom: 25px;
+    }
+
+    .form-control {
+      border-radius: 10px;
+      box-shadow: none;
+    }
+
+    .btn-danger {
+      background-color: #d32f2f;
+      border: none;
+      border-radius: 10px;
+      font-weight: 600;
+      padding: 10px;
+      width: 100%;
+      transition: 0.3s;
+    }
+
+    .btn-danger:hover {
+      background-color: #b71c1c;
+    }
+
+    .btn-primary {
+      border-radius: 10px;
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+    }
+
+    /* ✅ Popup */
+    #popup {
+      position: fixed;
+      top: 30px;
+      right: 30px;
+      background-color: #43a047;
+      color: white;
+      padding: 15px 25px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 16px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+      display: none;
+      z-index: 1000;
+      animation: fadeInOut 3s ease forwards;
+    }
+
+    @keyframes fadeInOut {
+      0% { opacity: 0; transform: translateY(-20px); }
+      10% { opacity: 1; transform: translateY(0); }
+      90% { opacity: 1; transform: translateY(0); }
+      100% { opacity: 0; transform: translateY(-20px); }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- ✅ Navbar -->
+  <nav class="navbar">
+    <a class="navbar-brand" href="index.html"><i class="bi bi-trash3"></i> Vadasi Store</a>
+  </nav>
+
+  <!-- ✅ Delete Product Form -->
+  <div class="form-container">
+    <h2><i class="bi bi-trash3-fill"></i> Delete Product</h2>
+
+    <form id="deleteForm">
+      <div class="mb-3">
+        <label for="productId" class="form-label">Enter Product ID or Name</label>
+        <input type="text" id="productId" class="form-control" placeholder="e.g. 2 or 'Apple'" required />
+      </div>
+
+      <button type="submit" class="btn btn-danger"><i class="bi bi-x-circle"></i> Delete Product</button>
+      <a href="products.html" class="btn btn-primary"><i class="bi bi-arrow-left-circle"></i> Back</a>
+    </form>
+  </div>
+
+  <!-- ✅ Popup -->
+  <div id="popup">✅ Product deleted successfully!</div>
+
+  <script>
+    document.getElementById("deleteForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const input = document.getElementById("productId").value.trim();
+      let products = JSON.parse(localStorage.getItem("products")) || [];
+
+      if (!input) {
+        showPopup("⚠️ Please enter Product ID or Name", true);
+        return;
+      }
+
+      const beforeDelete = products.length;
+      products = products.filter(
+        (p) => p.id != input && p.title.toLowerCase() !== input.toLowerCase()
+      );
+
+      if (products.length === beforeDelete) {
+        showPopup("❌ Product not found", true);
+      } else {
+        localStorage.setItem("products", JSON.stringify(products));
+        showPopup("✅ Product deleted successfully!");
+        e.target.reset();
+      }
+    });
+
+    // ✅ Popup function
+    function showPopup(message, isError = false) {
+      const popup = document.getElementById("popup");
+      popup.textContent = message;
+      popup.style.backgroundColor = isError ? "#d32f2f" : "#43a047";
+      popup.style.display = "block";
+      setTimeout(() => { popup.style.display = "none"; }, 3000);
+    }
+  </script>
+</body>
+</html>
