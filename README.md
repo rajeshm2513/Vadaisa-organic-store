@@ -99,6 +99,7 @@ It can be used as a final-year project, portfolio project, or base for building 
 
 ---
 
-$$ 👩‍💻 Developed By  
-Mudavath Rajesh Naik
-Github:
+$$ 👨‍💻 Author 
+Mudavath Rajesh Naik 
+GitHub Profile: https://github.com/rajeshm2513
+Project Repo: https://github.com/rajeshm2513/Vadaisa-organic-store
